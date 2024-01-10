@@ -1,5 +1,5 @@
 import numpy as np
-from data import *
+from utils.data import *
 
 
 # Emissions de CO2 en 2023

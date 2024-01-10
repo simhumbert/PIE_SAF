@@ -1,5 +1,5 @@
-from hypothesis import *
-from utils import *
+from utils.hypothesis import *
+from utils.utils import *
 
 """## Scénario : Incorporation en ligne avec les mandats européens"""
 

@@ -1,4 +1,4 @@
-from hypothesis import *
+from utils.hypothesis import *
 import matplotlib as plt
 
 def calculs_with_saf(nbr_annee,           # int : Nombre d'années (hypothèse)

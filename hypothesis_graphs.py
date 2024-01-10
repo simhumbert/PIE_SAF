@@ -1,4 +1,4 @@
-from hypothesis import *
+from utils.hypothesis import *
 import matplotlib.pyplot as plt
 
 """4. Affichage des hypothèses"""
