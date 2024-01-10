@@ -59,7 +59,7 @@ nrj_volum_kero = nrj_combu_kero * densite_kero  # MJ/L
 nbr_annee = fin - debut +1
 CO2_em = np.linspace(CO2_2023, CO2_supp * nbr_annee, nbr_annee)
 
-volume_kero_an = CO2_em * 1000000/(nrj_volum_kero * core_lca_kero)
+volume_carbu_an = CO2_em * 1000000/(nrj_volum_kero * core_lca_kero)
 
 # Objectifs incorporations saf EU
 incorpo_saf_eu = np.concatenate((np.linspace(obj_2023, obj_2025, 2025-debut+1)[:-1],
