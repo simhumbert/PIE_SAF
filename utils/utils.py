@@ -1,5 +1,5 @@
 from utils.hypothesis import *
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def calculs_with_saf(nbr_annee,           # int : Nombre d'années (hypothèse)
                      volume_carbu_an,     # array : Volume de carburant / an (hypothèse)
