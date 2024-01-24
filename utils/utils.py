@@ -42,7 +42,7 @@ def calculs_with_saf(nbr_annee,           # int : Nombre d'années (hypothèse)
 
     return prix_kero_saf_an, prix_carbone_kero_saf, prix_saf_an, allowances_extra_an, prix_ap_allowances_an, prix_kero_an, prix_carbone_kero_an
 
-def graphique(data, labels):
+def graphique(data, labels):         # Diagramme batôns des coûts
   years = np.arange(debut, fin+1)
 
   # Tracer le graphique
@@ -78,4 +78,21 @@ def graphique(data, labels):
   plt.xticks(years + 1.5*width, years)
 
   # Afficher le graphique
+  plt.show()
+  
+def graphique_emissionscarbone(emissions_carbone):       # Fonction pour tracer les emissions carbone des 3 différents scénarios
+  annees = list(range(2023, 2031))  # Créer une liste d'années de 2023 à 2030
+  figc = plt.figure(figsize=(20, 6))
+  
+  plt.plot(annees, emissions_carbone[0], marker='s', label='Scénario 1 : No SAF')
+  plt.plot(annees, emissions_carbone[1], marker='o', label='Scénario 2 : Incorporation suivant les mandats européens')
+  plt.plot(annees, emissions_carbone[2], marker='^', label='Scénario 3 : Incorporation custom')
+  
+  plt.title('Émissions de carbone de 2023 à 2030')
+  plt.xlabel('Année')
+  plt.ylabel('Émissions de carbone')
+  plt.legend()  # Afficher la légende
+  
+  plt.grid(True)
+  plt.tight_layout()
   plt.show()

@@ -32,4 +32,7 @@ data = np.array([np.round(prix_kero_saf_an/1000000,2),
                   np.round((prix_ap_allowances_an+prix_carbone_kero_saf)/1000000,2),
                   np.round((prix_carbone_kero_an + prix_kero_an)/1000000,2)])
 
-graphique(data, labels)
+
+if __name__ == '__main__':
+    
+    graphique(data, labels)

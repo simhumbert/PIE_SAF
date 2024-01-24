@@ -46,7 +46,3 @@ plt.xticks(years, years)
 
 # Afficher le graphique
 plt.show()
-
-
-
-
