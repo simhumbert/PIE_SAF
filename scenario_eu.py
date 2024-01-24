@@ -19,7 +19,7 @@ prix_kero_saf_an, prix_carbone_kero_saf, prix_saf_an, allowances_extra_an, prix_
 """2. Graphique"""
 
 labels =['Kérosène',
-         ' Coût carbone kérosène (après quotas gratuits)',
+         'Coût carbone kérosène (après quotas gratuits)',
           'SAF',
           'Allowances',
           'Prix Final',
