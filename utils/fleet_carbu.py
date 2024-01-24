@@ -1,5 +1,5 @@
 import numpy as np
-from data import *
+from utils.data import *
 
 
 def fleet_carbu(annee_start, annee_end,       # int : Années de début et fin de simulation (hypothèse)
