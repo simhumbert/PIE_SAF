@@ -34,14 +34,14 @@ CO2_em = np.array([round(market_eu * i,2) for i in CO2_em_world])
 volume_carbu = np.array([round(market_eu * i,2) for i in volume_carbu_world])
 
 # Objectifs incorporations saf EU
-incorpo_saf_eu = np.concatenate((np.linspace(obj_2023, obj_2025, 2025-debut+1)[:-1],
-                                 np.linspace(obj_2025, obj_2030, fin-2025+1)))
+incorpo_saf_eu = np.concatenate((np.linspace(obj_2023, obj_2025, 2025-beg+1)[:-1],
+                                 np.linspace(obj_2025, obj_2030, end-2025+1)))
 
 # Quotas carbone
 quota_eu = np.array([quota_2023, quota_2024, quota_2025, quota_2026, 0, 0, 0, 0])
 
 # Carbon price
-carbonprice = np.linspace(carbonprice_2023, carbonprice_2030, fin-debut+1)
+carbonprice = np.linspace(carbonprice_2023, carbonprice_2030, beg-end+1)
 
 # Incorporations
 incorpo_2023 = 0              # *100 %
@@ -79,5 +79,5 @@ data = np.array([np.round(C_MP_k/1000000,2),
 
 if __name__ == '__main__':
     
-    graphique(data, labels, debut, fin)
+    graphique(data, labels, beg, end)
     graphique_emissionscarbone(CO2_em, incorpo_saf)
