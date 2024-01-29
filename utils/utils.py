@@ -1,6 +1,8 @@
 from utils.data import *
 import matplotlib.pyplot as plt
 
+
+
 def calculs_with_saf(beg,             # int : Année de départ
                      end,             # int : Année de fin
                      V,               # array : Volume de carburant / an (hypothèse)
