@@ -41,7 +41,7 @@ incorpo_saf_eu = np.concatenate((np.linspace(obj_2023, obj_2025, 2025-beg+1)[:-1
 quota_eu = np.array([quota_2023, quota_2024, quota_2025, quota_2026, 0, 0, 0, 0])
 
 # Carbon price
-carbonprice = np.linspace(carbonprice_2023, carbonprice_2030, beg-end+1)
+carbonprice = np.linspace(carbonprice_2023, carbonprice_2030, end-beg+1)
 
 # Incorporations
 incorpo_2023 = 0              # *100 %
