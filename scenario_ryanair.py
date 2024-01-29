@@ -24,7 +24,7 @@ end = 2030
 market_eu = 0.9
 
 # Allowance gratuite en 2023 : émissions de CO2 2023
-allowance_free_2023 = CO2_2023
+allowance_free_2023 = CO2_2023*market_eu
 
 # Tableau des émissions / an et émissions de CO2 sans SAF
 volume_carbu_world, CO2_em_world = fleet_carbu(beg, end, CO2_2023, B737_NG_0, B737_MAX_0, replacement_nbr, em_reduction_rate, nbr_add_annual)
