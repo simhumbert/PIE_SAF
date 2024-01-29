@@ -50,7 +50,7 @@ incorpo_saf = [incorpo_2023, incorpo_2024, incorpo_2025, incorpo_2026, incorpo_2
 
 """Calculs :"""
 
-C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0 = calculs_with_saf(nbr_annee, volume_carbu_an,incorpo_saf, allowance_free_2023, quota_eu, carbonprice, price_saf, price_kero, allowance_SAF)
+C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0 = calculs_with_saf(debut, fin, volume_carbu_an,incorpo_saf, allowance_free_2023, quota_eu, carbonprice, price_saf, price_kero, allowance_SAF)
 
 
 """Graphique :"""
@@ -72,3 +72,4 @@ data = np.array([np.round(C_MP_k/1000000,2),
 if __name__ == '__main__':
     
     graphique(data, labels, debut, fin)
+    graphique_hypotheses(debut, fin, carbonprice, quota_eu)

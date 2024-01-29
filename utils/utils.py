@@ -1,7 +1,8 @@
 from utils.data import *
 import matplotlib.pyplot as plt
 
-def calculs_with_saf(years,           # int : Nombre d'années (hypothèse)
+def calculs_with_saf(beg,             # int : Année de départ
+                     end,             # int : Année de fin
                      V,               # array : Volume de carburant / an (hypothèse)
                      I,               # array : taux d'incorporation / an (hypothèse)
                      A,               # float : allowance d'émissions gratuites en 2023 (hypothèse)
@@ -10,7 +11,7 @@ def calculs_with_saf(years,           # int : Nombre d'années (hypothèse)
                      P_SAF,           # float : prix du SAF au litre (hypothèse)
                      P_k,             # float : prix du kérosène au litre (hypothèse)
                      R):              # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse)               
-
+    years = beg - end +1
     # Cas sans SAF : 
     C_MP_k0 = V * P_k
     C_CO2_k0 = (alpha*V - A*Q) * P_CO2
