@@ -175,7 +175,7 @@ def graphique_carbonprice(beg, end,
   
   fig, ax = plt.subplots(figsize=(10, 6))
   ax.plot(range(beg, end + 1), P_CO2, label='P_CO2 selon hypothèses', marker='^')
-  ax.plot(range(beg, end + 1), (P_SAF-P_k)*(1-R)/alpha, label='P_CO2 limite', marker='o')
+  ax.plot(range(beg, end + 1), (end-beg+1)*[(P_SAF-P_k)*(1-R)/alpha], label='P_CO2 limite', marker='o')
   ax.set_xlabel('Année')
   ax.set_ylabel('prix en $')
   ax.set_title('Évolution du prix de la tonne de carbone')
