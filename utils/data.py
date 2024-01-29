@@ -31,5 +31,6 @@ obj_2030 = 0.05           # *100 %
 nrj_combu_kero = 43.15                          # MJ/kg
 densite_kero = 0.81                             # kg/L
 nrj_volum_kero = nrj_combu_kero * densite_kero  # MJ/L
+alpha = nrj_volum_kero*core_lca_kero/1000000    # tCO2eq./L
 
 

@@ -9,12 +9,11 @@ def calculs_with_saf(years,           # int : Nombre d'années (hypothèse)
                      P_CO2,           # array : prix de la tonne carbone chaque année (hypothèse)
                      P_SAF,           # float : prix du SAF au litre (hypothèse)
                      P_k,             # float : prix du kérosène au litre (hypothèse)
-                     R):              # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse)
-                     
+                     R):              # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse)               
 
     # Cas sans SAF : 
     C_MP_k0 = V * P_k
-    C_CO2_k0 = (CO2_em - A*Q) * P_CO2
+    C_CO2_k0 = (alpha*V - A*Q) * P_CO2
 
     # Cas avec SAF : 
     V_SAF = np.zeros(years)
@@ -24,14 +23,9 @@ def calculs_with_saf(years,           # int : Nombre d'années (hypothèse)
         V_SAF[y]    = V[y]*I[y]
         V_k[y]  = V[y]*(1-I[y])
 
-    # Calcul cout carbone kérosène
-    E_CO2 = V_k * nrj_volum_kero * core_lca_kero /1000000
-    C_CO2_k = ( E_CO2 - A*Q) * P_CO2
-
-    # Calcul surcoût SAF
+    C_CO2_k = (alpha*V_k - A*Q) * P_CO2
     C_MP_SAF = V_SAF * P_SAF
     C_MP_k = V_k * P_k
-
     R_UE = -R *(C_MP_k+ C_MP_SAF - C_MP_k0 )
 
     return C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0
