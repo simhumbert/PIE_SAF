@@ -56,7 +56,7 @@ incorpo_2028 = 0.30           # *100 %
 incorpo_2029 = 0.40           # *100 %
 incorpo_2030 = 0.50           # *100 %
 
-incorpo_saf = [incorpo_2023, incorpo_2024, incorpo_2025, incorpo_2026, incorpo_2027, incorpo_2028, incorpo_2029, incorpo_2030]
+incorpo_saf = np.array([incorpo_2023, incorpo_2024, incorpo_2025, incorpo_2026, incorpo_2027, incorpo_2028, incorpo_2029, incorpo_2030])
 
 
 """Calculs :"""
@@ -83,6 +83,6 @@ data = np.array([np.round(C_MP_k/1000000,2),
 if __name__ == '__main__':
     
     graphique(data, labels, debut, fin)
-    graphique_emissionscarbone(emission_euets_luft, incorpo_saf_eu)
+    graphique_emissionscarbone(emission_euets_luft, incorpo_saf_eu, incorpo_saf)
     graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf_eu)
     

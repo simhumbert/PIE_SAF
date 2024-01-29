@@ -75,15 +75,18 @@ def graphique(data, labels, debut, fin):         # Diagramme batôns des coûts
   
   
   
-def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_scenario):       # Fonction pour tracer les emissions carbone des 3 différents scénarios
-  emissions_carbone = [CO2_em_NoSaf, ([1] * len(incorpo_saf_scenario) - incorpo_saf_scenario) * CO2_em_NoSaf]
+def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_EU, incorpo_saf_CUSTOM):       # Fonction pour tracer les emissions carbone des 3 différents scénarios
+  emissions_carbone = []
+  emissions_carbone.append(CO2_em_NoSaf)
+  emissions_carbone.append(([1] * len(incorpo_saf_EU) - incorpo_saf_EU) * CO2_em_NoSaf)
+  emissions_carbone.append(([1] * len(incorpo_saf_CUSTOM) - incorpo_saf_CUSTOM) * CO2_em_NoSaf)
   
   annees = list(range(2023, 2031))  # Créer une liste d'années de 2023 à 2030
   figc = plt.figure(figsize=(20, 6))
   
   plt.plot(annees, emissions_carbone[0], marker='s', label='Scénario 1 : No SAF')
   plt.plot(annees, emissions_carbone[1], marker='o', label='Scénario 2 : Incorporation suivant les mandats européens')
-  # plt.plot(annees, emissions_carbone[2], marker='^', label='Scénario 3 : Incorporation custom')
+  plt.plot(annees, emissions_carbone[2], marker='^', label='Scénario 3 : Incorporation custom')
   
   plt.title('Émissions de carbone de 2023 à 2030')
   plt.xlabel('Année')
