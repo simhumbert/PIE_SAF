@@ -94,7 +94,7 @@ def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_EU, incorpo_saf_CUSTOM)
   plt.legend()  # Afficher la légende
   
   plt.grid(True)
-  plt.tight_layout()
+  # plt.tight_layout()
   plt.show()
   
 
