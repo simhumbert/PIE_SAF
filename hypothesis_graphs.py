@@ -1,4 +1,4 @@
-from utils.hypothesis import *
+from scenario_skyalp import *
 import matplotlib.pyplot as plt
 
 """4. Affichage des hypothèses"""
