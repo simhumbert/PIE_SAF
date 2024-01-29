@@ -11,7 +11,7 @@ def calculs_with_saf(beg,             # int : Année de départ
                      P_SAF,           # float : prix du SAF au litre (hypothèse)
                      P_k,             # float : prix du kérosène au litre (hypothèse)
                      R):              # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse)               
-    years = beg - end +1
+    years = end - beg +1
     # Cas sans SAF : 
     C_MP_k0 = V * P_k
     C_CO2_k0 = (alpha*V - A*Q) * P_CO2
@@ -30,6 +30,8 @@ def calculs_with_saf(beg,             # int : Année de départ
     R_UE = -R *(C_MP_k+ C_MP_SAF - C_MP_k0 )
 
     return C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0
+
+
 
 def graphique(data, labels, debut, fin):         # Diagramme batôns des coûts
   years = np.arange(debut, fin+1)
@@ -69,13 +71,17 @@ def graphique(data, labels, debut, fin):         # Diagramme batôns des coûts
   # Afficher le graphique
   plt.show()
   
-def graphique_emissionscarbone(emissions_carbone):       # Fonction pour tracer les emissions carbone des 3 différents scénarios
+  
+  
+def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_scenario):       # Fonction pour tracer les emissions carbone des 3 différents scénarios
+  emissions_carbone = [CO2_em_NoSaf, ([1] * len(incorpo_saf_scenario) - incorpo_saf_scenario) * CO2_em_NoSaf]
+  
   annees = list(range(2023, 2031))  # Créer une liste d'années de 2023 à 2030
   figc = plt.figure(figsize=(20, 6))
   
   plt.plot(annees, emissions_carbone[0], marker='s', label='Scénario 1 : No SAF')
   plt.plot(annees, emissions_carbone[1], marker='o', label='Scénario 2 : Incorporation suivant les mandats européens')
-  plt.plot(annees, emissions_carbone[2], marker='^', label='Scénario 3 : Incorporation custom')
+  # plt.plot(annees, emissions_carbone[2], marker='^', label='Scénario 3 : Incorporation custom')
   
   plt.title('Émissions de carbone de 2023 à 2030')
   plt.xlabel('Année')
@@ -154,4 +160,4 @@ def graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf):
   ax.legend()
   plt.grid(True)
   plt.tight_layout()
-  plt.show()   
+  plt.show()
