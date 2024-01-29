@@ -13,34 +13,28 @@ def calculs_with_saf(years,           # int : Nombre d'années (hypothèse)
                      
 
     # Cas sans SAF : 
-    prix_kero_an = V * P_k
-    prix_carbone_kero_an = (CO2_em - A*Q) * P_CO2
+    C_MP_k0 = V * P_k
+    C_CO2_k0 = (CO2_em - A*Q) * P_CO2
 
     # Cas avec SAF : 
-    volume_saf_an = np.zeros(years)
-    volume_kero_saf_an = np.zeros(years)
+    V_SAF = np.zeros(years)
+    V_k = np.zeros(years)
 
     for y in range(len(V)):
-        volume_saf_an[y]    = V[y]*I[y]
-        volume_kero_saf_an[y]  = V[y]*(1-I[y])
+        V_SAF[y]    = V[y]*I[y]
+        V_k[y]  = V[y]*(1-I[y])
 
     # Calcul cout carbone kérosène
-    CO2_em_kero = volume_kero_saf_an * nrj_volum_kero * core_lca_kero /1000000
-    prix_carbone_kero_saf = ( CO2_em_kero - A*Q) * P_CO2
+    E_CO2 = V_k * nrj_volum_kero * core_lca_kero /1000000
+    C_CO2_k = ( E_CO2 - A*Q) * P_CO2
 
     # Calcul surcoût SAF
-    prix_saf_an = volume_saf_an * P_SAF
-    prix_kero_saf_an = volume_kero_saf_an * P_k
+    C_MP_SAF = V_SAF * P_SAF
+    C_MP_k = V_k * P_k
 
-    prix_total_an = prix_saf_an + prix_kero_saf_an
+    R_UE = -R *(C_MP_k+ C_MP_SAF - C_MP_k0 )
 
-    prix_extra_an =  prix_total_an - prix_kero_an
-
-    allowances_extra_an = -prix_extra_an * R
-
-    prix_ap_allowances_an = prix_total_an + allowances_extra_an
-
-    return prix_kero_saf_an, prix_carbone_kero_saf, prix_saf_an, allowances_extra_an, prix_ap_allowances_an, prix_kero_an, prix_carbone_kero_an
+    return C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0
 
 def graphique(data, labels):         # Diagramme batôns des coûts
   years = np.arange(debut, fin+1)
