@@ -119,4 +119,38 @@ def fleet_carbu(annee_start, annee_end,       # int : Années de début et fin d
     volume_carbu_an = CO2_em * 1000000/(nrj_volum_kero * core_lca_kero)
     
     return volume_carbu_an, CO2_em
-    
+
+
+
+def graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf):
+  # Prix du carbone
+  fig, ax = plt.subplots(figsize=(10, 6))
+  ax.plot(range(debut, fin + 1), carbonprice, label='Prix du Carbone (€/tCO2eq.)', marker='o')
+  ax.set_xlabel('Années')
+  ax.set_ylabel('Prix (€/tCO2eq.)')
+  ax.set_title('Évolution du Prix du Carbone')
+  ax.legend()
+  plt.grid(True)
+  plt.show()
+
+
+  # Quota carbone EU
+  fig, ax = plt.subplots(figsize=(10, 6))
+  ax.plot(range(debut, fin + 1), quota_eu*100, label='Quota Carbone de l\'UE (%)', marker='s')
+  ax.set_xlabel('Année')
+  ax.set_ylabel('Proportion du quota carbone couvert par les allowances gratuites (%)')
+  ax.set_title('Évolution du Quota Carbone de l\'UE')
+  ax.legend()
+  plt.grid(True)
+  plt.show()
+
+  # Incorporation des SAF en Eu
+  fig, ax = plt.subplots(figsize=(10, 6))
+  ax.plot(range(debut, fin + 1), incorpo_saf*100, label='Incorporation SAF de l\'UE (%)', marker='^')
+  ax.set_xlabel('Année')
+  ax.set_ylabel('Incorporations SAF (%)')
+  ax.set_title('Évolution de l\'Incorporation SAF de l\'UE')
+  ax.legend()
+  plt.grid(True)
+  plt.tight_layout()
+  plt.show()   

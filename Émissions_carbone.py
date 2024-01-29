@@ -1,5 +1,5 @@
 from utils.utils import *
-from scenario import incorpo_saf
+from scenario_skyalp import incorpo_saf
 
 #from scenario_nosaf import CO2_em
 #from scenario_eu import incorpo_saf_eu
