@@ -81,3 +81,5 @@ data = np.array([np.round(C_MP_k/1000000,2),
 if __name__ == '__main__':
     
     graphique(data, labels, debut, fin)
+    graphique_emissionscarbone(emission_euets_luft)
+    
