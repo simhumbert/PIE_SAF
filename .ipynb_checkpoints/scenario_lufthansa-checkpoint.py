@@ -16,6 +16,8 @@ replacement_nbr = 17
 em_reduction_rate = 0.15
 nbr_add_annual = 0
 
+# Part du marché dans l'UE
+market_eu = 0.43
 
 # Augmentation des emissions en tC02 / an
 CO2_supp = 0       # tCO2/an
@@ -25,14 +27,14 @@ debut = 2023
 fin = 2030
 
 # Allowance gratuite en 2023 : émissions de CO2 2023
-allowance_free_2023 = CO2_2023
+allowance_free_2023 = CO2_2023 * market_eu
 
 # Tableau des émissions / an
 volume_carbu_an, CO2_emission = fleet_carbu(debut, fin, CO2_2023, nbr_old_start, nbr_new_start, replacement_nbr, em_reduction_rate, nbr_add_annual)
 
 # Tableau emission
-emission_euets_luft = np.array([round(0.43 * i,2) for i in CO2_emission])
-volume_euets_luft = np.array([round(0.43*i,2) for i in volume_carbu_an])
+emission_euets_luft = np.array([round(market_eu * i,2) for i in CO2_emission])
+volume_euets_luft = np.array([round(market_eu*i,2) for i in volume_carbu_an])
 
 # Objectifs incorporations saf EU
 incorpo_saf_eu = np.concatenate((np.linspace(obj_2023, obj_2025, 2025-debut+1)[:-1],
