@@ -166,3 +166,20 @@ def graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf):
   plt.grid(True)
   plt.tight_layout()
   plt.show()
+
+def graphique_carbonprice(beg, end, 
+                          P_CO2,      # array : prix de la tonne carbone chaque année (hypothèse)
+                          P_SAF,      # float : prix du SAF au litre (hypothèse)
+                          P_k,        # float : prix du kérosène au litre (hypothèse)
+                          R):         # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse)  
+  
+  fig, ax = plt.subplots(figsize=(10, 6))
+  ax.plot(range(beg, end + 1), P_CO2, label='P_CO2 selon hypothèses', marker='^')
+  ax.plot(range(beg, end + 1), (P_SAF-P_k)*(1-R)/alpha, label='P_CO2 limite', marker='o')
+  ax.set_xlabel('Année')
+  ax.set_ylabel('prix en $')
+  ax.set_title('Évolution du prix de la tonne de carbone')
+  ax.legend()
+  plt.grid(True)
+  plt.tight_layout()
+  plt.show()
