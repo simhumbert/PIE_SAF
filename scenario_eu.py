@@ -6,15 +6,7 @@ from utils.utils import *
 
 """1. Calculs"""
 
-prix_kero_saf_an, prix_carbone_kero_saf, prix_saf_an, allowances_extra_an, prix_ap_allowances_an, prix_kero_an, prix_carbone_kero_an = calculs_with_saf(nbr_annee,
-                                                                                                                                                        volume_carbu_an,
-                                                                                                                                                        incorpo_saf_eu,
-                                                                                                                                                        allowance_free_2023,
-                                                                                                                                                        quota_eu,
-                                                                                                                                                        carbonprice,
-                                                                                                                                                        price_saf,
-                                                                                                                                                        price_kero,
-                                                                                                                                                        allowance_SAF)
+C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0 = calculs_with_saf(nbr_annee, volume_carbu_an,incorpo_saf_eu, allowance_free_2023, quota_eu, carbonprice, price_saf, price_kero, allowance_SAF)
 
 """2. Graphique"""
 
@@ -25,12 +17,12 @@ labels =['Kérosène',
           'Prix Final',
           'Scénario NO SAF']
 
-data = np.array([np.round(prix_kero_saf_an/1000000,2),
-                 np.round(prix_carbone_kero_saf/1000000,2),
-                  np.round(prix_saf_an/1000000,2),
-                  np.round(allowances_extra_an/1000000,2),
-                  np.round((prix_ap_allowances_an+prix_carbone_kero_saf)/1000000,2),
-                  np.round((prix_carbone_kero_an + prix_kero_an)/1000000,2)])
+data = np.array([np.round(C_MP_k/1000000,2),
+                 np.round(C_CO2_k/1000000,2),
+                 np.round(C_MP_SAF/1000000,2),
+                 np.round(R_UE/1000000,2),
+                 np.round((C_MP_k+C_CO2_k+C_MP_SAF+R_UE)/1000000,2),
+                 np.round((C_MP_k0 + C_CO2_k0)/1000000,2)])
 
 
 if __name__ == '__main__':
