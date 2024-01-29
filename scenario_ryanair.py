@@ -81,4 +81,4 @@ if __name__ == '__main__':
     
     graphique(data, labels, beg, end)
     graphique_hypotheses(beg, end, carbonprice, quota_eu, incorpo_saf)
-    graphique_emissionscarbone(CO2_em, incorpo_saf)
+    graphique_emissionscarbone(CO2_em, incorpo_saf_eu, incorpo_saf)
