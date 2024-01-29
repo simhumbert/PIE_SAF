@@ -155,10 +155,10 @@ def graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf):
 
   # Incorporation des SAF en Eu
   fig, ax = plt.subplots(figsize=(10, 6))
-  ax.plot(range(debut, fin + 1), incorpo_saf*100, label='Incorporation SAF de l\'UE (%)', marker='^')
+  ax.plot(range(debut, fin + 1), incorpo_saf*100, label='Incorporation SAF (%)', marker='^')
   ax.set_xlabel('Année')
   ax.set_ylabel('Incorporations SAF (%)')
-  ax.set_title('Évolution de l\'Incorporation SAF de l\'UE')
+  ax.set_title('Évolution de l\'Incorporation SAF')
   ax.legend()
   plt.grid(True)
   plt.tight_layout()
