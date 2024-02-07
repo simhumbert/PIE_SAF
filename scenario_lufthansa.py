@@ -1,7 +1,7 @@
 from utils.utils import *
 from utils.data import *
 
-"""## Scénario Skyalp : incorporations modifiables
+"""## Scénario Lufthansa : incorporations modifiables
 
 1. Hypothèses 
 """
@@ -82,7 +82,7 @@ data = np.array([np.round(C_MP_k/1000000,2),
 
 if __name__ == '__main__':
     
-    graphique(data, labels, debut, fin)
+    graphique(data, labels, debut, fin, incorpo_saf_eu)
     graphique_emissionscarbone(emission_euets_luft, incorpo_saf_eu, incorpo_saf)
     graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf_eu)
     
