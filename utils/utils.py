@@ -35,45 +35,72 @@ def calculs_with_saf(beg,             # int : Année de départ
 
 
 
-def graphique(data, labels, debut, fin):         # Diagramme batôns des coûts
-  years = np.arange(debut, fin+1)
+def graphique(data, labels, debut, fin, taux_incorpo, filename=None):         
+    years = np.arange(debut, fin+1)
 
-  # Tracer le graphique
-  fig = plt.figure(figsize=(20, 6))
-  width = 0.1
+    # Tracer le graphique
+    fig = plt.figure(figsize=(15, 8))
+    width = 0.1
 
-  colors =['#A9CCE3',
-           '#E74C3C',
-          '#7FB3D5',
-          '#5499C7',
-          '#2980B9',
-          '#7F8C8D']
+    colors =['#b57e36',
+             '#8a2f2f',
+             '#4fa842',
+             '#f7f265',
+             '#374c63',
+             '#7F8C8D']
 
-  bottoms = np.array([np.zeros(len(data[0])),
-                      data[0,:],
-                      data[0,:]+data[1,:],
-                      data[0,:]+data[1,:]+data[2,:],
-                      np.zeros(len(data[0,:])),
-                      np.zeros(len(data[0,:]))])
+    bottoms = np.array([np.zeros(len(data[0])),
+                        data[0,:],
+                        data[0,:]+data[1,:],
+                        data[0,:]+data[1,:]+data[2,:],
+                        np.zeros(len(data[0,:])),
+                        np.zeros(len(data[0,:]))])
 
-  for i in range(0,len(data[:,0])-1):
-    bar = plt.bar(years+i*width, data[i,:], label=labels[i], width=width, bottom=bottoms[i,:], align='center', color=colors[i])
-    plt.bar_label(bar, label_type='center')
+    for i in range(0,len(data[:,0])-2):
+        bar = plt.bar(years+i*width, data[i,:], label=labels[i], width=width-0.05, bottom=bottoms[i,:], align='center', color=colors[i])
+        #plt.bar_label(bar, label_type='center')
+    
+    bar = plt.bar(years+(len(data[:,0])-1)*width, data[-2,:], label=labels[-1], width=width+0.05, bottom=bottoms[-2,:], align='center', color=colors[-2])
+    #plt.bar_label(bar, padding = 0.5)
+    # Affichage du scénario de référence
+    bar = plt.bar(years+(len(data[:,0])+1)*width, data[-1,:], label=labels[-1], width=width+0.05, bottom=bottoms[-1,:], align='center', color=colors[-1])
+    plt.bar_label(bar, label_type ='center')
+    
+    diff = data[-1,:] - data[-2,:]
+    for i, d in enumerate(diff):
+        if d > 0:
+            color = 'red'
+            plt.text(years[i] + (len(data[:,0])+1)*width, data[-1,i] + 0.1, f"+{d:.2f}", ha='center', color=color, fontsize = 12)
+        else:
+            color = 'blue'
+            plt.text(years[i] + (len(data[:,0])+1)*width, data[-1,i] + 0.1, f"{d:.2f}", ha='center', color=color, fontsize = 10)
 
-  # Affichage du scénario de référence
-  bar = plt.bar(years+(len(data[:,0])+1)*width, data[-1,:], label=labels[-1], width=width, bottom=bottoms[-1,:], align='center', color=colors[-1])
-  plt.bar_label(bar, label_type='center')
 
-  # Personnaliser le graphique
-  plt.xlabel('Années')
-  plt.ylabel('Prix (m$)')
-  plt.legend()
-  plt.xticks(years + 1.5*width, years)
+    # Personnaliser le graphique
+    #plt.xlabel('Years', fontsize = 14, labelpad = 30)
+    plt.ylabel('Price (m$)', fontsize = 14)
+    plt.tick_params(axis='both', which='major', labelsize=12) 
+    
+    
+    
+    for i in range(len(taux_incorpo)):
+        plt.text( 2023+i + 1.5*width, -3, f" SAF : {taux_incorpo[i]*100}%", ha='center', color = 'grey')
 
-  # Afficher le graphique
-  plt.show()
-  
-  
+
+    plt.xticks(years + 1.5*width, years)
+    
+    # Définir le fond du graphique comme transparent
+    plt.gca().set_facecolor('none')
+    plt.grid(axis='y', color='lightgrey')
+    plt.legend(loc='upper left', framealpha=0.75)
+    # Enregistrer le graphique si un nom de fichier est spécifié
+    if filename:
+        plt.savefig(filename, bbox_inches='tight', transparent=True)
+    
+    
+    # Afficher le graphique
+    plt.show()
+
   
 def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_EU, incorpo_saf_CUSTOM):       # Fonction pour tracer les emissions carbone des 3 différents scénarios
   emissions_carbone = []
