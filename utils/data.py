@@ -1,4 +1,5 @@
-import numpy as np
+"""Données nécessaires aux calculs 
+"""
 
 
 # Carburant : ENI biofuel HEFA Waste Oil
