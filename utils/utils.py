@@ -1,8 +1,13 @@
+""" Fonctions de calculs
+    A utiliser avec la notice "SAF Price computation"
+"""
+
 from utils.data import *
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
-
+# Permet de calculer la fonction coût dans le cas avec SAF
 def calculs_with_saf(beg,             # int : Année de départ
                      end,             # int : Année de fin
                      V,               # array : Volume de carburant / an (hypothèse)
@@ -31,12 +36,25 @@ def calculs_with_saf(beg,             # int : Année de départ
     C_MP_k = V_k * P_k
     R_UE = -R *(C_MP_k+ C_MP_SAF - C_MP_k0 )
 
-    return C_MP_k, C_CO2_k, C_MP_SAF, R_UE, C_MP_k0, C_CO2_k0
+    return (C_MP_k,     # Coût de la matière première du kérosène 
+            C_CO2_k,    # Coût CO2 du kérosène
+            C_MP_SAF,   # Coût de la matière première du SAF
+            R_UE,       # Allowance surcout UE
+            C_MP_k0,    # Coût de la matière première dans le cas sans SAF
+            C_CO2_k0    # Coût CO2 dans le cas sans SAF
+            )
 
 
-
-def graphique(data, labels, debut, fin, taux_incorpo, filename=None, dossier = None):
-    
+# Permet de tracer un graphique en fonction des données d'entrées
+def graphique(data,             # array 6x(debut-fin+1): Tableau de données comprenant C_MP_k, C_CO2_k, C_MP_SAF, R_UE, 
+                                # C_MP_k+C_CO2_k+C_MP_SAF+R_UE, C_MP_k0 + C_CO2_k0.
+                                # Penser à arrondir et diviser par 100000 pour avoir des résultats en mUSD
+              labels,           # array : Légendes à donner pour les 6 entrées du tableau "data"
+              debut,            # int : Année de début
+              fin,              # int : Année de fin
+              taux_incorpo,     # array : Taux d'incorporation / an
+              filename=None,    # string : nom du fichier de sortie
+              dossier = None):  # string : nom du dossier de sortie
     
     years = np.arange(debut, fin+1)
 
@@ -60,10 +78,10 @@ def graphique(data, labels, debut, fin, taux_incorpo, filename=None, dossier = N
 
     for i in range(0,len(data[:,0])-2):
         bar = plt.bar(years+i*width, data[i,:], label=labels[i], width=width-0.05, bottom=bottoms[i,:], align='center', color=colors[i])
-        #plt.bar_label(bar, label_type='center')
+
     
     bar = plt.bar(years+(len(data[:,0])-1)*width, data[-2,:], label=labels[-2], width=width+0.05, bottom=bottoms[-2,:], align='center', color=colors[-2])
-    #plt.bar_label(bar, padding = 0.5)
+
     # Affichage du scénario de référence
     bar = plt.bar(years+(len(data[:,0])+1)*width, data[-1,:], label=labels[-1], width=width+0.05, bottom=bottoms[-1,:], align='center', color=colors[-1])
     plt.bar_label(bar, label_type ='center')
@@ -79,10 +97,8 @@ def graphique(data, labels, debut, fin, taux_incorpo, filename=None, dossier = N
 
 
     # Personnaliser le graphique
-    #plt.xlabel('Years', fontsize = 14, labelpad = 30)
     plt.ylabel('Price (M$)', fontsize = 14)
     plt.tick_params(axis='both', which='major', labelsize=12) 
-    
     
     
     for i in range(len(taux_incorpo)):
@@ -101,15 +117,17 @@ def graphique(data, labels, debut, fin, taux_incorpo, filename=None, dossier = N
         plt.savefig(chemin_fichier)
         plt.savefig(chemin_fichier, bbox_inches='tight', transparent=True)
     
-    
     # Afficher le graphique
     plt.show()
     
-    
-    
 
-def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_EU, incorpo_saf_CUSTOM, filename = None, dossier=None):
-    # Fonction pour tracer les emissions carbone des 3 différents scénarios
+# Permet de tracer le graphique des émissions carbone
+def graphique_emissionscarbone(CO2_em_NoSaf,        # array : Emissions de CO2/an dans le cas sans SAF
+                               incorpo_saf_EU,      # array : Emissions de CO2/an dans le cas d'incoporation en ligne avec les mandats européens
+                               incorpo_saf_CUSTOM,  # array : Emissions de CO2/an dans le cas customizé
+                               filename = None,     # string : nom du fichier de sortie
+                               dossier=None):       # string : nom du dossier de sortie
+
     emissions_carbone = []
     emissions_carbone.append(CO2_em_NoSaf)
     emissions_carbone.append(([1] * len(incorpo_saf_EU) - incorpo_saf_EU) * CO2_em_NoSaf)
@@ -122,8 +140,7 @@ def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_EU, incorpo_saf_CUSTOM,
     plt.plot(annees, emissions_carbone[1], marker='o', label='Scenario 2 : Incorporation according european mandates')
     plt.plot(annees, emissions_carbone[2], marker='^', label='Scenario 3 : Incorporation from custom')
 
-    #plt.title('Carbon emissions from 2023 to 2030', fontsize = 16, pad = 30)
-    #plt.xlabel('Years', fontsize = 14)
+
     plt.ylabel('Carbon emissions (tCO2)', fontsize = 14, labelpad = 30)
     plt.legend()  # Afficher la légende
     plt.gca().set_facecolor('none')
@@ -136,11 +153,10 @@ def graphique_emissionscarbone(CO2_em_NoSaf, incorpo_saf_EU, incorpo_saf_CUSTOM,
         plt.savefig(chemin_fichier, bbox_inches='tight', transparent=True)
 
 
-    # plt.tight_layout()
     plt.show()
     
 
-
+# Permet de calculer le volume de carburant annuel et les émissions de CO2 d'une flotte d'avion 
 def fleet_carbu(annee_start, annee_end,       # int : Années de début et fin de simulation (hypothèse)
                 CO2_em_start,                 # float : Emissions de CO2 à l'année de départ (donnée)
                 nbr_old_start,                # int : nombre d'anciens modèles au départ (donnée)
@@ -175,9 +191,17 @@ def fleet_carbu(annee_start, annee_end,       # int : Années de début et fin d
     return volume_carbu_an, CO2_em
 
 
-
-def graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf, filename_price = None, filename_quota = None, filename_incorpo = None, dossier = None):
-  # Prix du carbone
+# Permet de tracer 3 graphiques des hypothèses : prix du carbone, Quotat carbone européen, et taux d'incoporation des SAF
+def graphique_hypotheses(debut, fin,                # int : Années de début et fin de simulation (hypothèse)
+                         carbonprice,               # array : évolution annuelle du prix de la tonne de carbone
+                         quota_eu,                  # array : Quota carbone EU ETS (fin des quotas gratuits)
+                         incorpo_saf,               # array : taux incoporation SAF
+                         filename_price = None,     # string : nom du fichier de sortie, graph prix carbone
+                         filename_quota = None,     # string : nom du fichier de sortie, graph quota eu
+                         filename_incorpo = None,   # string : nom du fichier de sortie, graph taux d'incorporation
+                         dossier = None):           # string : nom du dossier de sortie
+    
+    # Prix du carbone
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.plot(range(debut, fin + 1), carbonprice, label='Carbon Price ($/tCO2eq.)', marker='o')
     #ax.set_xlabel('Années')
@@ -222,20 +246,20 @@ def graphique_hypotheses(debut, fin, carbonprice, quota_eu, incorpo_saf, filenam
         plt.savefig(chemin_fichier, bbox_inches='tight', transparent=True)
     
     plt.show()
-    
-def graphique_carbonprice(beg, end, 
+  
+
+# Permet de tracer le prix seuil de la tonne de carbone et le prix hypothèse
+def graphique_carbonprice(beg, end,   # int : Années de début et fin de simulation (hypothèse)
                           P_CO2,      # array : prix de la tonne carbone chaque année (hypothèse)
                           P_SAF,      # float : prix du SAF au litre (hypothèse)
                           P_k,        # float : prix du kérosène au litre (hypothèse)
-                          R,           # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse) 
+                          R,          # float : allowance gratuite de réduction du surcoût lié au SAF (hypothèse) 
                           filename = None,dossier =None):
   
     fig, ax = plt.subplots(figsize=(15, 6))
     ax.plot(range(beg, end + 1), P_CO2, label='Price CO2 according hypothesis', marker='^')
     ax.plot(range(beg, end + 1), (end-beg+1)*[(P_SAF-P_k)*(1-R)/alpha], label='Limit of Price CO2', marker='o')
-    #ax.set_xlabel('Année')
     ax.set_ylabel('Price ($)', fontsize = 14, labelpad = 20 )
-    #ax.set_title('Évolution du prix de la tonne de carbone')
     ax.legend()
     plt.grid(True)
     plt.tight_layout()
